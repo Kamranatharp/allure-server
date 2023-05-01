@@ -126,7 +126,7 @@ public class AllureReportController {
 
         // Unzip and save
         ReportEntity reportEntity = reportService
-                .uploadReport(reportPath, allureReportArchive.getInputStream(), new ExecutorInfo(), baseUrl());
+                .uploadReport(reportPath, allureReportArchive.getInputStream(), allureReportArchive.getOriginalFilename(), new ExecutorInfo(), baseUrl());
         log.info("File saved to file system '{}'", allureReportArchive);
 
         return new ReportResponse(
