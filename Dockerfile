@@ -1,4 +1,4 @@
-FROM docker-registry.alefed.com/gradle:6.9.2-jdk11 as build
+FROM docker-registry.alefed.com/adoptopenjdk/openjdk13:latest AS builder
 COPY . .
 ARG RELEASE_VERSION=${RELEASE_VERSION:-0.0.0}
 RUN gradle -Pversion=docker -i -s --no-daemon bootJar
