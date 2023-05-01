@@ -124,9 +124,11 @@ public class AllureResultController {
         }
 
         // Unzip and save
-        Path path = resultService.unzipAndStore(allureResults.getInputStream());
+        Path path = resultService.unzipAndStore(allureResults.getInputStream(), allureResults.getOriginalFilename());
         log.info("File saved to file system '{}'", allureResults);
-        return UploadResponse.builder().fileName(allureResults.getOriginalFilename()).uuid(path.getFileName().toString()).build();
+        String originalFilename = allureResults.getOriginalFilename();
+        String uuid = originalFilename.substring(0, originalFilename.lastIndexOf('.'));
+        return UploadResponse.builder().fileName(allureResults.getOriginalFilename()).uuid(allureResults.getOriginalFilename()).build();
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
