@@ -17,15 +17,15 @@ import ru.iopump.qa.allure.service.PathUtil;
 @NoArgsConstructor
 public class ReportGenerateRequest {
     /**
-     * Information about report. Will ba added to generated report.
+     * Information about report. Will be added to generated report.
      */
     @NotNull
     ReportSpec reportSpec;
     /**
-     * Result UUID collection to generate new report.
+     * Result UUID collection or report name collection to generate new report.
      */
     @NotEmpty
-    List<@Pattern(regexp = PathUtil.UUID_PATTERN) String> results;
+    List<String> results;
     /**
      * Delete result after generation.
      */
@@ -36,3 +36,4 @@ public class ReportGenerateRequest {
         return results.stream().map(p -> baseResultDir.resolve(Paths.get(p))).collect(Collectors.toUnmodifiableList());
     }
 }
+
