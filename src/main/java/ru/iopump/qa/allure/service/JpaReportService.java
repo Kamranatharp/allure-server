@@ -125,11 +125,12 @@ public class JpaReportService {
     @SneakyThrows
     public ReportEntity uploadReport(@NonNull String reportPath,
                                      @NonNull InputStream archiveInputStream,
+                                     @NonNull String zipFilename,
                                      @Nullable ExecutorInfo executorInfo,
                                      String baseUrl) {
 
         // New report destination and entity
-        final Path destination = reportUnzipService.unzipAndStore(archiveInputStream);
+        final Path destination = reportUnzipService.unzipAndStore(archiveInputStream, zipFilename);
         final UUID uuid = UUID.fromString(destination.getFileName().toString());
         Preconditions.checkArgument(
                 Files.list(destination).anyMatch(path -> path.endsWith("index.html")),
