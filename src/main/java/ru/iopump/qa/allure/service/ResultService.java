@@ -85,15 +85,14 @@ public class ResultService {
      * @throws IOException IO Error
      */
     @NonNull
-    public Path unzipAndStore(@NonNull InputStream archiveInputStream) throws IOException {
+    public Path unzipAndStore(@NonNull InputStream archiveInputStream, @NonNull String zipFilename) throws IOException {
         Preconditions.checkArgument(archiveInputStream.available() > 0,
             "Passed InputStream is empty");
         Path tmpResultDirectory = null;
         Path resultDirectory = null;
         try (InputStream io = archiveInputStream) {
-            final String uuid = UUID.randomUUID().toString();
-            tmpResultDirectory = storagePath.resolve(uuid + "_tmp");
-            resultDirectory = storagePath.resolve(uuid);
+            tmpResultDirectory = storagePath.resolve(zipFilename + "_tmp");
+            resultDirectory = storagePath.resolve(zipFilename);
             Files.createDirectories(resultDirectory);
             checkAndUnzipTo(io, tmpResultDirectory);
             move(tmpResultDirectory, resultDirectory);
@@ -111,6 +110,7 @@ public class ResultService {
         log.info("Archive content saved to '{}'", resultDirectory);
         return resultDirectory;
     }
+
 
     private void checkAndUnzipTo(InputStream zipArchiveIo, Path unzipTo) throws IOException {
         ZipInputStream zis = new ZipInputStream(zipArchiveIo);
